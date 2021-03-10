@@ -1,0 +1,30 @@
+DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS routerdb;
+DROP TABLE IF EXISTS tasklog;
+
+CREATE TABLE user (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  username TEXT UNIQUE NOT NULL,
+  password TEXT NOT NULL
+);
+
+CREATE TABLE routerdb (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id INTEGER NOT NULL,
+  host TEXT UNIQUE NOT NULL,
+  sshusername TEXT NOT NULL,
+  sshpassword TEXT NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES user (id)
+);
+
+CREATE TABLE tasklog (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id INTEGER NOT NULL,
+  task_time TEXT NOT NULL,
+  url_list TEXT NOT NULL,
+  type TEXT NOT NULL,
+  description TEXT NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES user (id)
+);
+
+

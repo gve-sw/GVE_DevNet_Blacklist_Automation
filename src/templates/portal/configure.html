@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	<h1>{% block title %}<u>Portal Settings</u>{% endblock %}</h1>
+	<div class="row dbl-margin-bottom">
+		<div class="col-12">
+			<blockquote class="blockquote--secondary">
+				<h3>User Info:</h3>
+				<p>Username: {{ session['username'] }}</p>
+				<p>Password (Hash): {{ session['password'] }}</p>
+			</blockquote>
+		</div>
+	</div>
+	<div class="row dbl-margin-bottom">
+		<div class="col-12">
+			<form method="post">
+				<blockquote class="blockquote--success">
+					<h3>Router Connection Settings:</h3>
+					<label for="routerHost">Host:</label>
+					<input name="routerHost" id="routerHost" value="{{ request.form['routerHost'] }}">
+					<label for="routerUser">SSH Username:</label>
+					<input name="routerUser" id="routerUser" value="{{ request.form['routerUser'] }}">
+					<label for="routerPass">SSH Password:</label>
+					<input name="routerPass" id="routerPass" value="{{ request.form['routerPass'] }}">
+					<button class="btn btn--success" name="addNewRouter" value="addRouter">Add</button>
+				</blockquote>
+			</form>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-12 panel panel--raised" style="background-color:#ced4da;">
+			<form method="post">
+				<div class="row base-margin-top">
+					<div class="col-1"></div>
+					<div class="col-10" style="text-align:center;">
+						<h3><u>Configured Network Routers:</u></h3>
+						<div class="responsive-table">
+							<table class="table table--striped table--bordered" aria-label="Bordered Incident table" style="background-color:white;">
+								<thead>
+									<tr>
+										<th class="col-3 sortable">Host <span class="sort-indicator icon-dropdown"></span></th>
+										<th class="col-3 sortable">Username <span class="sort-indicator icon-dropdown"></span></th>
+										<th class="col-3 sortable">Password <span class="sort-indicator icon-dropdown"></span></th>
+										<th class="col-3"></th>
+									</tr>
+								</thead>
+								<tbody>
+								{% for router in router_List %}
+									<tr>
+										<td>{{ router.host }}</td>
+										<td>{{ router.sshusername }}</td>
+										<td>{{ router.sshpassword }}</td>
+										<td>
+											<button class="btn btn--primary" name="removeRouter" value="{{ router.host }}"
+													style="background-color: #1c04e4; color:white;">Remove</button>
+										</td>
+									</tr>
+								{% endfor %}
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="col-1"></div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+{% endblock %}

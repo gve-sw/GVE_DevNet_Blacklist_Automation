@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block header %}
+	<h1>{% block title %}<u>Main Dashboard</u>{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+	<form method="post">
+		<!-- Available Organization Table -->
+		<div class="row base-margin-top base-margin-left">
+			<div class="col-6 panel panel--raised half-margin-right" style="background-color:#ced4da;">
+				<div class="row base-margin-top">
+					<div class="col-1"></div>
+					<div class="col-10" style="text-align:center;">
+						<h3><u>Active Network Intelligence:</u></h3>
+						<div class="responsive-table">
+							<table class="table table--striped table--bordered" aria-label="Bordered Incident table" style="background-color:white;">
+								<thead>
+									<tr>
+										<th class="col-8 sortable">Name <span class="sort-indicator icon-dropdown"></span></th>
+										<th class="col-4 sortable">Type <span class="sort-indicator icon-dropdown"></span></th>
+										<th class="col-4 sortable">Automated <span class="sort-indicator icon-dropdown"></span></th>
+									</tr>
+								</thead>
+								<tbody>
+								{% for blacklist in active_Blacklists %}
+									<tr>
+										<td>{{ blacklist }}</td>
+										{% if blacklist == 'Talos_Intelligence_Feed.txt' %}
+										<td>Live Feed</td>
+										<td><span class="icon-presence-offline"></span></td>
+										{% else %}
+										<td>BlackList</td>
+										{% if blacklist == session['autoUpdateBlacklist'] %}
+										<td>
+											<button class="btn btn--success btn--justified" name="autoUpdateBlacklist" value="{{ blacklist }}">
+												<span class="icon-check-outline"></span>
+											</button>
+										</td>
+										{% else %}
+										<td>
+											<button class="btn btn--justified" name="autoUpdateBlacklist" value="{{ blacklist }}" style="background-color: #1c04e4; color:white;">
+												<span class="icon-presence-offline"></span>
+											</button>
+										</td>
+										{% endif %}
+										{% endif %}
+									</tr>
+								{% endfor %}
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="col-1"></div>
+				</div>
+			</div>
+			<div class="col-5 panel panel--raised" style="background-color:#ced4da;">
+				<div class="row base-margin-top">
+					<div class="col-1"></div>
+					<div class="col-10" style="text-align:center;">
+						<h3><u>Configured Network Routers:</u></h3>
+						<div class="responsive-table">
+							<table class="table table--striped table--bordered" aria-label="Bordered Incident table" style="background-color:white;">
+								<thead>
+									<tr>
+										<th class="col-6 sortable" style="text-align:center">IP <span class="sort-indicator icon-dropdown"></span></th>
+									</tr>
+								</thead>
+								<tbody>
+								{% for router in router_List %}
+									<tr>
+										<td>{{ router.host }}</td>
+									</tr>
+								{% endfor %}
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="col-1"></div>
+				</div>
+			</div>
+		</div>
+		</div>
+	</form>
+{% endblock %}
